@@ -182,7 +182,7 @@ WHERE codigo = $P{CODIGO}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="151" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="88" y="0" width="50" height="30" uuid="5c7270d1-1247-4d46-a61e-46905a01a0fb">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2abdaa39-e5c0-45bc-9c50-3e09ea2fca9a"/>
