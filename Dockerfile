@@ -3,7 +3,7 @@ FROM maven:3.9.6-eclipse-temurin-21 AS builder
 
 WORKDIR /app
 
-COPY pom.xml . 
+COPY pom.xml .
 COPY src ./src
 
 RUN mvn clean package -DskipTests
@@ -11,30 +11,23 @@ RUN mvn clean package -DskipTests
 # ====== STAGE 2: RUN ======
 FROM eclipse-temurin:21-jdk
 
-# 🔥 Librerías necesarias para JasperReports + fonts + AWT
+# 🔥 IMPORTANTÍSIMO: dependencias gráficas para JasperReports
 RUN apt-get update && apt-get install -y \
-    libfreetype6 \
-    libfreetype6-dev \
     fontconfig \
     fonts-dejavu \
-    fonts-dejavu-core \
-    fonts-dejavu-extra \
+    libfreetype6 \
     libxrender1 \
-    libxext6 \
-    libx11-6 \
+    libxtst6 \
+    libxi6 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copia el jar generado
 COPY --from=builder /app/target/*.jar app.jar
 
-# 🔥 Java en modo headless (OBLIGATORIO para JasperReports)
+# 👇 esto es correcto aquí
 ENV JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
-ENV _JAVA_OPTIONS="-Djava.awt.headless=true"
 
-# Puerto de Railway
 EXPOSE 8080
 
-# Ejecutar aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
